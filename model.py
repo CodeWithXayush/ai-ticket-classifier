@@ -1,9 +1,11 @@
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.naive_bayes import MultinomialNB
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
 
 # -----------------------------
-#Create dataset inside code (no CSV needed)
+# DATASET
 # -----------------------------
 data = {
     "text": [
@@ -14,90 +16,54 @@ data = {
         "account login problem",
         "login failed",
         "unable to access account",
+        "reset my password",
         "how to check leave balance",
         "show my leave details",
         "leave balance not visible",
         "how many leaves do i have",
         "leave request information",
-        "leave policy details"
+        "leave policy details",
+        "how to apply leave"
     ],
     "category": [
-        "login",
-        "login",
-        "login",
-        "login",
-        "login",
-        "login",
-        "login",
-        "hr",
-        "hr",
-        "hr",
-        "hr",
-        "hr",
-        "hr"
+        "login","login","login","login","login","login","login","login",
+        "hr","hr","hr","hr","hr","hr","hr"
     ]
 }
 
 df = pd.DataFrame(data)
 
 # -----------------------------
-#  Split data
+# TRAIN TEST SPLIT
 # -----------------------------
-X = df["text"]
-y = df["category"]
+X_train, X_test, y_train, y_test = train_test_split(
+    df["text"], df["category"], test_size=0.2, random_state=42
+)
 
 # -----------------------------
-#  Convert text to numbers
+# VECTORIZATION
 # -----------------------------
 vectorizer = TfidfVectorizer()
-X_vectorized = vectorizer.fit_transform(X)
+X_train_vec = vectorizer.fit_transform(X_train)
+X_test_vec = vectorizer.transform(X_test)
 
 # -----------------------------
-#  Train model
+# MODEL TRAINING
 # -----------------------------
 model = MultinomialNB()
-model.fit(X_vectorized, y)
+model.fit(X_train_vec, y_train)
 
 # -----------------------------
-#  Prediction function
+# ACCURACY
+# -----------------------------
+y_pred = model.predict(X_test_vec)
+accuracy = accuracy_score(y_test, y_pred)
+
+print(f"Model Accuracy: {accuracy:.2f}")
+
+# -----------------------------
+# PREDICTION FUNCTION
 # -----------------------------
 def predict_ticket(text):
     text_vec = vectorizer.transform([text])
-    prediction = model.predict(text_vec)
-    return prediction[0]
-
-# -----------------------------
-#Test examples
-# -----------------------------
-print("Testing model...\n")
-print("Input: I forgot my password")
-print("Output:", predict_ticket("I forgot my password"))
-
-print("\nInput: show my leave balance")
-print("Output:", predict_ticket("show my leave balance"))
-
-# -----------------------------
-#Interactive chatbot mode 
-# -----------------------------
-print("\nAI Ticket Classifier is running (type 'exit' to stop)\n")
-
-while True:
-    user_input = input("Enter your issue: ")
-
-    if user_input.lower() == "exit":
-        print("Exiting...")
-        break
-
-    category = predict_ticket(user_input)
-
-    # Auto-response 
-    if category == "login":
-        response = "It seems like a login issue. Please try resetting your password or contact support."
-    elif category == "hr":
-        response = "This looks like an HR query. Please check your HR portal for leave details."
-    else:
-        response = "Sorry, I couldn't understand your issue."
-
-    print("Category:", category)
-    print("Response:", response)
-    print("-" * 50)
+    return model.predict(text_vec)[0]
