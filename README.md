@@ -21,6 +21,10 @@ pip install pandas scikit-learn streamlit
 
 2. Run the app:
 streamlit run app.py
+<img width="1910" height="1079" alt="image" src="https://github.com/user-attachments/assets/45360625-21b6-48c5-8121-c7bf065ce607" />
+
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/43b7bdd8-a0b1-4fd1-a687-fb9509b04846" />
+
 
 ## Example
 Input: I forgot my password  
