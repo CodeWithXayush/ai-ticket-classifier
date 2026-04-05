@@ -3,22 +3,24 @@
 This project is a simple AI model that classifies support tickets into categories like Login Issues and HR Queries.
 
 ## Features
-- Text classification using Machine Learning
-- TF-IDF vectorization
-- Naive Bayes model
-- Interactive chatbot mode
+- Machine Learning model (Naive Bayes)
+- TF-IDF text vectorization
+- Accuracy calculation
+- Streamlit Web App
 
 ## Tech Stack
 - Python
 - Pandas
 - Scikit-learn
+- Streamlit
 
 ## How to Run
-1. Install dependencies:
-   pip install pandas scikit-learn
 
-2. Run the script:
-   python model.py
+1. Install dependencies:
+pip install pandas scikit-learn streamlit
+
+2. Run the app:
+streamlit run app.py
 
 ## Example
 Input: I forgot my password  
