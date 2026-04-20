@@ -2,7 +2,7 @@
 
 This project is a simple AI model that classifies support tickets into categories like Login Issues and HR Queries.
 
-## Feature
+## Features
 - Machine Learning model (Naive Bayes)
 - TF-IDF text vectorization
 - Accuracy calculation
